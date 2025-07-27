@@ -17,6 +17,7 @@ HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop"
 # --- Colors for Output ---
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # --- Helper Functions ---
@@ -29,6 +30,17 @@ print_warning() {
 }
 
 # --- Main Installation Logic ---
+
+# 0. Clean up previous failed installations
+if [ -d "${HADOOP_HOME}" ]; then
+    print_warning "Previous Hadoop installation found. Cleaning it up before reinstalling."
+    rm -rf "${HADOOP_HOME}"
+    rm -rf "${HOME}/hadoop_data"
+    # Also remove the lines added to .bashrc to avoid duplicates
+    sed -i '/# --- Hadoop Environment Variables ---/,/# --- End Hadoop Environment Variables ---/d' ~/.bashrc
+    print_info "Cleanup complete."
+fi
+
 
 # 1. Update and Install Prerequisites
 print_info "Updating package lists and installing prerequisites (OpenJDK 11, SSH)..."
@@ -61,7 +73,7 @@ print_info "Extracting Hadoop to ${INSTALL_DIR}..."
 tar -xzf "/tmp/hadoop-${HADOOP_VERSION}.tar.gz" -C "${INSTALL_DIR}"
 print_info "Hadoop extracted to ${HADOOP_HOME}."
 
-# 4. Set Environment Variables
+# 4. Set Environment Variables in .bashrc
 print_info "Setting up environment variables in .bashrc..."
 {
     echo ""
@@ -88,12 +100,15 @@ export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
 export HADOOP_HOME=${HADOOP_HOME}
 export PATH=$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin
 
-# 5. Copy Pre-configured Files
-print_info "Copying pre-configured Hadoop files..."
-cp -r ./config/* "${HADOOP_CONF_DIR}/"
-# Set JAVA_HOME in hadoop-env.sh
-sed -i "s|# export JAVA_HOME=.*|export JAVA_HOME=${JAVA_HOME}|" "${HADOOP_CONF_DIR}/hadoop-env.sh"
-print_info "Configuration files copied successfully."
+# 5. Configure Hadoop
+print_info "Copying pre-configured Hadoop XML files..."
+cp ./config/*.xml "${HADOOP_CONF_DIR}/"
+
+print_info "Setting JAVA_HOME in hadoop-env.sh..."
+# This is a robust way to set JAVA_HOME, as it appends it to the file.
+echo "export JAVA_HOME=${JAVA_HOME}" >> "${HADOOP_CONF_DIR}/hadoop-env.sh"
+print_info "Configuration files copied and modified successfully."
+
 
 # 6. Create HDFS Directories
 print_info "Creating HDFS directories for NameNode and DataNode..."
