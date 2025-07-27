@@ -41,7 +41,7 @@ Now, clone this repository into your home directory:
 
 ```bash
 cd ~
-git clone <URL_OF_THIS_REPOSITORY>
+git clone https://github.com/stephenbaraik/hadoop-wsl-setup.git
 cd hadoop-on-wsl
 ```
 
