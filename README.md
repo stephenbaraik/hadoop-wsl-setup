@@ -64,9 +64,14 @@ This script will perform the following actions:
 
 ### Step 3: Start Hadoop Services
 
-Once the installation is complete, you can start the Hadoop Distributed File System (HDFS) and Yet Another Resource Negotiator (YARN) services using the provided helper script.
+Once the installation is complete, you can start the Hadoop Distributed File System (HDFS) and Yet Another Resource Negotiator (YARN) services.
 
-To start all services:
+First, make the run script executable:
+```bash
+chmod +x run_hadoop.sh
+```
+
+Now, to start all services:
 ```bash
 ./run_hadoop.sh start
 ```
