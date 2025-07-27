@@ -4,6 +4,9 @@ set -e
 echo "[INFO] Updating packages..."
 sudo apt update && sudo apt install -y openjdk-11-jdk wget ssh pdsh
 
+echo "[INFO] Cleaning old Hadoop folders if they exist..."
+rm -rf ~/hadoop ~/hadoop-3.4.0 ~/hadoop-3.4.0.tar.gz
+
 echo "[INFO] Downloading Hadoop 3.4.0 from Apache..."
 wget --timeout=30 --show-progress https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz -P ~
 
