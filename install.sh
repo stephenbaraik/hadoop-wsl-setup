@@ -15,17 +15,22 @@ tar -xf ~/hadoop-3.4.0.tar.gz -C ~
 rm ~/hadoop-3.4.0.tar.gz
 mv ~/hadoop-3.4.0 ~/hadoop
 
+# 💡 Dynamically detect repo path
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "[INFO] Setting up environment variables..."
-cat ~/hadoop-wsl-setup/config/.bashrc.append >> ~/.bashrc
-cp ~/hadoop-wsl-setup/config/hadoop-profile.sh ~/hadoop/
-source ~/.bashrc
+cat "$REPO_DIR/config/.bashrc.append" >> ~/.bashrc
+cp "$REPO_DIR/config/hadoop-profile.sh" ~/hadoop/
 
 echo "[INFO] Configuring Hadoop..."
-cp ~/hadoop-wsl-setup/scripts/*.xml ~/hadoop/etc/hadoop/
-cp ~/hadoop-wsl-setup/scripts/hadoop-env.sh ~/hadoop/etc/hadoop/
+cp "$REPO_DIR/scripts/"*.xml ~/hadoop/etc/hadoop/
+cp "$REPO_DIR/scripts/hadoop-env.sh" ~/hadoop/etc/hadoop/
+
+echo "[INFO] Reloading bash config..."
+source ~/.bashrc
 
 echo "[INFO] Formatting HDFS..."
 ~/hadoop/bin/hdfs namenode -format
 
-echo "[INFO] Hadoop installation complete!"
-echo "Run: start-dfs.sh && start-yarn.sh"
+echo "[✅] Hadoop installation complete!"
+echo "👉 Run: start-dfs.sh && start-yarn.sh"
