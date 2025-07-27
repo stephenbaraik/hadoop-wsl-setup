@@ -42,7 +42,7 @@ Now, clone this repository into your home directory:
 ```bash
 cd ~
 git clone https://github.com/stephenbaraik/hadoop-wsl-setup.git
-cd hadoop-on-wsl
+cd hadoop-wsl-setup
 ```
 
 ### Step 2: Run the Installation Script
