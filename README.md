@@ -1,28 +1,22 @@
-# Hadoop 3.4.0 Installer for WSL (Ubuntu)
+# 🐘 Hadoop WSL Setup
 
-This repository installs Hadoop 3.4.0 in a WSL Ubuntu environment with one command.
+This repository provides a one-click setup for running **Hadoop 3.4.0** on **Ubuntu via WSL (Windows Subsystem for Linux)**. It installs all required dependencies, sets up environment variables, configures Hadoop, and formats the HDFS.
 
-## 🚀 One-Line Install
+---
 
-```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/hadoop-wsl-installer/main/install.sh | bash
-```
+## ✅ Features
 
-## ✅ Post-Install
+- WSL2 + Ubuntu compatible
+- Installs Java, SSH, pdsh, wget
+- Automatically downloads & configures Hadoop 3.4.0
+- Adds environment variables to `.bashrc`
+- Starts HDFS/YARN with simple commands
 
-```bash
-start-dfs.sh
-start-yarn.sh
-jps
-```
+---
 
-## 🔍 Validate
+## 🚀 Quick Install (Recommended)
 
 ```bash
-bash ~/hadoop/utils/test.sh
-```
-
-## 💡 Notes
-
-- Java 11, SSH, wget, and pdsh are auto-installed.
-- Environment variables and config files are fully preconfigured.
+git clone https://github.com/stephenbaraik/hadoop-wsl-setup.git
+cd hadoop-wsl-setup
+bash install.sh
