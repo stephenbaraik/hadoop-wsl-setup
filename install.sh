@@ -25,4 +25,4 @@ echo "[INFO] Formatting HDFS..."
 ~/hadoop/bin/hdfs namenode -format
 
 echo "[INFO] Hadoop installation complete!"
-echo "Run: start-hdfs.sh && start-yarn.sh"
+echo "Run: start-dfs.sh && start-yarn.sh"
