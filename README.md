@@ -8,18 +8,16 @@ The goal is to provide a simple, one-step installation process so that students 
 
 Before you begin, ensure you have the following installed on your Windows machine:
 
-1. **Windows Subsystem for Linux (WSL) 2:** WSL allows you to run a Linux environment directly on Windows. WSL 2 is recommended for better performance.
-   * To install WSL, open PowerShell as Administrator and run:
+1.  **Windows Subsystem for Linux (WSL) 2:** WSL allows you to run a Linux environment directly on Windows. WSL 2 is recommended for better performance.
+    * To install WSL, open PowerShell as Administrator and run:
+        ```bash
+        wsl --install
+        ```
+    * If you already have WSL 1, you can upgrade to WSL 2.
 
-     ```bash
-     wsl --install
-     ```
+2.  **Ubuntu from the Microsoft Store:** This guide uses the latest Ubuntu LTS version available from the Microsoft Store. Once WSL is installed, get Ubuntu from the store and set up your username and password.
 
-   * If you already have WSL 1, you can upgrade to WSL 2.
-
-2. **Ubuntu from the Microsoft Store:** This guide uses the latest Ubuntu LTS version available from the Microsoft Store. Once WSL is installed, get Ubuntu from the store and set up your username and password.
-
-3. **Java Development Kit (JDK) 8 or 11:** Hadoop runs on the JVM and requires a compatible JDK. We will use OpenJDK 11. The installation script will handle this for you.
+3.  **Java Development Kit (JDK) 8 or 11:** Hadoop runs on the JVM and requires a compatible JDK. We will use OpenJDK 11. The installation script will handle this for you.
 
 ## How to Install
 
@@ -54,8 +52,9 @@ The repository includes a script that will automate the entire setup process. Ma
 ```bash
 chmod +x install_hadoop.sh
 ./install_hadoop.sh
-This script will perform the following actions:
+```
 
+This script will perform the following actions:
 * Install OpenJDK 11.
 * Download Hadoop 3.4.1.
 * Unpack Hadoop into a designated directory (`~/hadoop-3.4.1`).
@@ -65,8 +64,6 @@ This script will perform the following actions:
 
 ### Step 3: Start Hadoop Services
 
-### Step 3: Start Hadoop Services
-First, make the run script executable:
 Once the installation is complete, you can start the Hadoop Distributed File System (HDFS) and Yet Another Resource Negotiator (YARN) services.
 
 First, make the run script executable:
@@ -87,7 +84,7 @@ XXXXX ResourceManager
 XXXXX NodeManager
 XXXXX Jps
 ```
-When you are finished with your session, you can stop all the Hadoop services:
+
 ### Step 4: Stop Hadoop Services
 
 When you are finished with your session, you can stop all the Hadoop services:
@@ -100,7 +97,7 @@ When you are finished with your session, you can stop all the Hadoop services:
 
 Once the services are running, you can interact with Hadoop:
 
-You can use HDFS commands to create directories and move data:
+* **HDFS Web UI (NameNode):** [http://localhost:9870](http://localhost:9870)
 * **YARN Web UI (ResourceManager):** [http://localhost:8088](http://localhost:8088)
 
 You can use HDFS commands to create directories and move data:
