@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+# 💡 Check if Hadoop is already installed
+if [ -d "$HOME/hadoop" ]; then
+    echo "[INFO] Hadoop already installed at ~/hadoop"
+    echo "👉 Run: start-dfs.sh && start-yarn.sh"
+    exit 0
+fi
+
 echo "[INFO] Updating packages..."
 sudo apt update && sudo apt install -y openjdk-11-jdk wget ssh pdsh
 
@@ -15,7 +22,6 @@ tar -xf ~/hadoop-3.4.0.tar.gz -C ~
 rm ~/hadoop-3.4.0.tar.gz
 mv ~/hadoop-3.4.0 ~/hadoop
 
-# 💡 Dynamically detect repo path
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "[INFO] Setting up environment variables..."
