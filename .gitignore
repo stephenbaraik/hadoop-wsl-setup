@@ -1,0 +1,15 @@
+# Log and output files
+*.log
+*.out
+
+# Local Hadoop data directories
+hadoop_data/
+
+# Downloaded archives
+/tmp/hadoop-*.tar.gz
+
+# IDE and editor specific files
+.idea/
+.vscode/
+*.swp
+*.swo
