@@ -1,114 +1,132 @@
 # Hadoop 3.4.1 on Windows with WSL (Ubuntu) - Robust Setup
 
-This repository provides a straightforward, **robust**, and pre-configured setup to install and run Apache Hadoop 3.4.1 on Windows 10/11 using the Windows Subsystem for Linux (WSL).
+This repository provides a straightforward, robust, and pre-configured setup to install and run **Apache Hadoop 3.4.1** on **Windows 10/11** using the **Windows Subsystem for Linux (WSL)**.
 
-The primary goal is to provide a reliable, one-step installation process that **works automatically across new terminal sessions**. This allows students and developers to focus on learning Hadoop rather than getting stuck on complex and repetitive environment setup procedures.
+The primary goal is to offer a reliable, one-step installation process that works across new terminal sessions. This allows students and developers to focus on learning Hadoop instead of dealing with complex and repetitive environment setup tasks.
 
 ---
 
-## ✅ Prerequisites
+## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed on your Windows machine:
+Before you begin, ensure the following are installed on your Windows machine:
 
-1. **Windows Subsystem for Linux (WSL) 2**  
-   WSL allows you to run a Linux environment directly on Windows. WSL 2 is required for optimal performance.
+### ✅ Windows Subsystem for Linux (WSL 2)
 
-   To install WSL, open **PowerShell as Administrator** and run:
+WSL allows you to run a Linux environment directly on Windows. **WSL 2** is required for optimal performance.
 
-   ```powershell
-   wsl --install
-Ubuntu from the Microsoft Store
-This guide uses the latest Ubuntu LTS version. Once WSL is installed, install Ubuntu from the Microsoft Store and complete the initial setup.
+To install WSL, open **PowerShell as Administrator** and run:
 
-🚀 One-Step Installation
-The installation is fully automated and should be performed inside your WSL Ubuntu terminal.
+```powershell
+wsl --install
+```
 
-Step 1: Clone This Repository
-First, update your packages and install Git (if you don't have it already):
+### ✅ Ubuntu from Microsoft Store
 
-bash
-Copy
-Edit
+This guide uses the latest Ubuntu LTS version. Once WSL is installed, download Ubuntu from the Microsoft Store and complete the initial user setup.
+
+---
+
+## 🚀 One-Step Installation
+
+The installation is fully automated. Follow these steps **inside your WSL Ubuntu terminal**.
+
+### Step 1: Clone This Repository
+
+First, update your package list and install Git if you don't have it:
+
+```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y git
-Now, clone this repository and navigate into it:
+```
 
-bash
-Copy
-Edit
+Clone this repository into your home directory and navigate into it:
+
+```bash
 cd ~
 git clone https://github.com/stephenbaraik/hadoop-wsl-setup.git
 cd hadoop-wsl-setup
-Step 2: Run the Installation Script
-Make the install script executable and run it:
+```
 
-bash
-Copy
-Edit
+### Step 2: Run the Installation Script
+
+Make the script executable and run it:
+
+```bash
 chmod +x install_hadoop.sh
 ./install_hadoop.sh
-This script will:
+```
 
-Install OpenJDK 11, SSH, and other dependencies
+This script performs the following:
 
-Download and unpack Hadoop 3.4.1 into ~/hadoop-3.4.1
+- Installs **OpenJDK 11**, SSH, and required dependencies.
+- Downloads and unpacks **Hadoop 3.4.1** into `~/hadoop-3.4.1`.
+- Copies pre-configured XML files (`core-site.xml`, `hdfs-site.xml`, etc.).
+- Sets environment variables (`JAVA_HOME`, `HADOOP_HOME`, `PATH`).
+- Ensures variables are automatically loaded in new terminal sessions.
+- Formats the HDFS **NameNode**.
 
-Copy pre-configured XML files (core-site.xml, hdfs-site.xml, etc.)
+### Step 3: Restart Your Terminal
 
-Set up environment variables (JAVA_HOME, HADOOP_HOME, etc.)
+**Important!**  
+To activate the environment variables permanently, **close your WSL terminal and open a new one**.
 
-Configure shell to auto-load the variables in all future sessions
+✅ After restarting, your environment is ready. You do **not** need to run `source ~/.bashrc`.
 
-Format the HDFS NameNode
+---
 
-Step 3: Restart Your Terminal
-IMPORTANT: You must close your current WSL terminal and open a new one for environment variables to apply.
+## ▶️ How to Use Hadoop
 
-After this, your setup is complete and persistent across sessions.
+Once your terminal is restarted, you can start and stop Hadoop using the provided helper script.
 
-▶️ How to Use Hadoop
-Once you've reopened your terminal, you can manage Hadoop with the helper script.
+### Start Hadoop Services
 
-Start Hadoop Services
-bash
-Copy
-Edit
+Navigate to the project directory and run:
+
+```bash
 cd ~/hadoop-wsl-setup
 ./run_hadoop.sh start
-This starts:
+```
 
-HDFS: NameNode and DataNode
+This starts the following daemons:
 
-YARN: ResourceManager and NodeManager
+- HDFS: `NameNode`, `DataNode`
+- YARN: `ResourceManager`, `NodeManager`
 
-You can verify by running:
+You can verify they are running using:
 
-bash
-Copy
-Edit
+```bash
 jps
-Stop Hadoop Services
-bash
-Copy
-Edit
+```
+
+### Stop Hadoop Services
+
+To stop the services and free up system resources:
+
+```bash
 ./run_hadoop.sh stop
-🌐 Web Interfaces
-HDFS Web UI (NameNode): http://localhost:9870
+```
 
-YARN Web UI (ResourceManager): http://localhost:8088
+---
 
-MapReduce JobHistory UI: http://localhost:19888
+## 🌐 Exploring Hadoop
 
-📂 Common HDFS Commands
-Here are a few examples to get started with HDFS:
+With services running, use the following web interfaces:
 
-bash
-Copy
-Edit
-# Create a home directory for your user
+- **HDFS Web UI (NameNode)**: [http://localhost:9870](http://localhost:9870)
+- **YARN Web UI (ResourceManager)**: [http://localhost:8088](http://localhost:8088)
+- **MapReduce JobHistory UI**: [http://localhost:19888](http://localhost:19888)
+
+---
+
+## 📁 Common HDFS Commands
+
+The environment is pre-configured, so standard `hdfs dfs` commands work out of the box:
+
+```bash
+# Create a home directory
 hdfs dfs -mkdir -p /user/$USER
 
-# Create a test folder
+# Create a test directory
 hdfs dfs -mkdir /user/$USER/test
 
 # List contents
@@ -117,23 +135,24 @@ hdfs dfs -ls /user/$USER
 # Upload a file to HDFS
 hdfs dfs -put README.md /user/$USER/test
 
-# Verify the upload
+# Verify the file
 hdfs dfs -ls /user/$USER/test
-📁 Repository Structure
-File/Folder	Description
-README.md	This installation and usage guide
-install_hadoop.sh	Robust installation script for Hadoop setup
-run_hadoop.sh	Helper script to start/stop Hadoop services
-config/	Contains pre-configured Hadoop XML files
-.gitignore	Excludes local logs/data from Git tracking
+```
 
-🙌 Support
-If you encounter any issues, please check your terminal logs for errors or submit an issue in the GitHub repository.
+---
 
-Happy Hadooping! 🎉
+## 📦 Repository Structure
 
-vbnet
-Copy
-Edit
+```text
+README.md           - This installation and usage guide.
+install_hadoop.sh   - Script that fully automates the installation.
+run_hadoop.sh       - Script to easily start/stop Hadoop services.
+config/             - Pre-configured Hadoop XML files:
+                      • core-site.xml
+                      • hdfs-site.xml
+                      • mapred-site.xml
+                      • yarn-site.xml
+.gitignore          - Ignores logs and local data from Git tracking.
+```
 
-Let me know if you'd like the same in a downloadable `.md` file!
+---
