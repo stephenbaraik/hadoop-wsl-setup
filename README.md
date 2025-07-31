@@ -84,6 +84,7 @@ Navigate to the project directory and run:
 
 ```bash
 cd ~/hadoop-wsl-setup
+chmod +x run_hadoop.sh
 ./run_hadoop.sh start
 ```
 
